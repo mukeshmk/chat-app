@@ -4,9 +4,8 @@
   "description": "Chat Application using MERN Stack",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "precommit": "pretty-quick --staged"
+    "start": "nodemon server/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -19,7 +18,6 @@
   },
   "homepage": "https://github.com/mukeshmk/chat-app#readme",
   "dependencies": {
-    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "mongoose": "^5.10.1"
   },
@@ -32,10 +30,6 @@
     "eslint-plugin-jsx-a11y": "^6.3.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^4.0.0",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.13",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.1",
     "pretty-quick": "^3.0.0"
