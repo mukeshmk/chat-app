@@ -1,0 +1,10 @@
+{
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "eslint.codeActionsOnSave.mode": "all",
+  "eslint.alwaysShowStatus": true,
+  "prettier.disableLanguages": ["js"],
+  "prettier.singleQuote": true
+}
