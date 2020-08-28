@@ -11,18 +11,20 @@
     "type": "git",
     "url": "git+https://github.com/mukeshmk/chat-app.git"
   },
-  "author": "",
+  "author": "Mukesh A",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/mukeshmk/chat-app/issues"
   },
   "homepage": "https://github.com/mukeshmk/chat-app#readme",
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "mongodb": "^3.6.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
