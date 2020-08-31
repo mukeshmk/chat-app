@@ -11,11 +11,16 @@ const io = socketio(server);
 
 app.set('view engine', 'ejs');
 
+app.use(express.static('public'));
+
 app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.use(express.static('public'));
+app.get('/chat', (req, res) => {
+    res.render('index');
+});
+
 app.use('/api', apiRouter);
 
 server.listen(config.port, () => {
@@ -23,7 +28,18 @@ server.listen(config.port, () => {
 });
 
 io.on('connection', (socket) => {
-    console.info('a user connected');
+    // io.emit() -> for all clients when a connection happens
+    // socket.emit() -> for that particular socket connection
+    // socket.broadcast.emit() -> all other clients apart from that socket connection
 
-    io.emit('message', 'Welcome to Chat App!');
+    // emits a message to the client who has newly joined a chat (only to that client)
+    socket.emit('message', 'Welcome to Chat App!');
+
+    // broadcast.emits a message to all other clients when a client joins a chat (apart from the joining client)
+    socket.broadcast.emit('message', 'A new user has joined a chat');
+
+    // runs when a client disconnects
+    socket.on('disconnect', () => {
+        io.emit('message', 'a user has disconnected');
+    });
 });
