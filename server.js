@@ -11,8 +11,6 @@ const io = socketio(server);
 
 app.set('view engine', 'ejs');
 
-app.use(express.static('public'));
-
 app.get('/', (req, res) => {
     res.render('index');
 });
@@ -22,6 +20,8 @@ app.get('/chat', (req, res) => {
 });
 
 app.use('/api', apiRouter);
+
+app.use(express.static('public'));
 
 server.listen(config.port, () => {
     console.info(`App Running on http://localhost:${config.port}`);
