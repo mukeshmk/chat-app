@@ -39,6 +39,10 @@ io.on('connection', (socket) => {
     // broadcast.emits a message to all other clients when a client joins a chat (apart from the joining client)
     socket.broadcast.emit('message', 'A new user has joined a chat');
 
+    socket.on('message', (msg) => {
+        console.log(msg);
+    })
+
     // runs when a client disconnects
     socket.on('disconnect', () => {
         io.emit('message', 'a user has disconnected');
