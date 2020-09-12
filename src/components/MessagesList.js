@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 MessagesList.propTypes = {
-    messages: PropTypes.string,
-    users: PropTypes.string
+    messages: PropTypes.array,
+    users: PropTypes.array
 };
 
 export default function MessagesList(props) {
