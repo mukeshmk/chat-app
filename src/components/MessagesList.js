@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,26 +16,33 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
+MessagesList.propTypes = {
+    messages: PropTypes.string,
+    users: PropTypes.string
+};
+
 export default function MessagesList(props) {
     const classes = useStyles();
 
     const [messages, setMessages] = useState([]);
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         setMessages(props.messages);
-    }, [props.messages]);
+        setUsers(props.users);
+    }, [props.messages, props.users]);
     
-    let user = ['user1', 'user2', 'user3', 'user4'];
     return (
         <List dense className={classes.root}>
             {messages.map((msg, i) => {
-                const labelId = `checkbox-list-secondary-label-${user[i]}-${msg}`;
+                const labelId = `checkbox-list-secondary-label-${users[i]}-${msg}`;
                 return (
                     <ListItem key={msg} button>
                         <ListItemAvatar>
                             <Avatar
-                                alt={`Avatar n°${user[i]}`}
-                                src={`/static/images/avatar/${user[i]}.jpg`}
+                                alt={`Avatar n°${users[i]}`}
+                                src={`/static/images/avatar/${users[i]}.jpg`}
                             />
                         </ListItemAvatar>
                         <ListItemText id={labelId} primary={`${msg}`} />

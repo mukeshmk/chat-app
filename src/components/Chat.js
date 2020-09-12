@@ -24,7 +24,7 @@ const Chat = () => {
     return (
         <>
             <h1>{message}</h1>
-            <MessagesList messages={messages}/>
+            <MessagesList messages={messages} users = {['users1', 'users2', 'users3', 'users4', 'users5']}/>
             <input 
                 placeholder="Message"
                 type="text"
