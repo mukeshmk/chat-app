@@ -21,13 +21,13 @@ app.get('/chat', (req, res) => {
     res.render('index');
 });
 
-app.use('/api', apiRouter);
-app.use(authRouter);
-
 app.use(express.static('public'));
 app.use(express.json());
 
-mongoose.connect(config.dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+app.use('/api', apiRouter);
+app.use(authRouter);
+
+mongoose.connect(config.dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     .then(server.listen(config.port, () => {
         console.info(`App Running on http://localhost:${config.port}`);
     }))
