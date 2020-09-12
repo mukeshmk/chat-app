@@ -1,6 +1,7 @@
 import http from 'http';
 import express from 'express';
 import socketio from 'socket.io';
+import mongoose from 'mongoose';
 
 import config from './config';
 import apiRouter from './api';
@@ -22,10 +23,13 @@ app.get('/chat', (req, res) => {
 app.use('/api', apiRouter);
 
 app.use(express.static('public'));
+app.use(express.json());
 
-server.listen(config.port, () => {
-    console.info(`App Running on http://localhost:${config.port}`);
-});
+mongoose.connect(config.dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(server.listen(config.port, () => {
+        console.info(`App Running on http://localhost:${config.port}`);
+    }))
+    .catch((err) => console.error(err));
 
 io.on('connection', (socket) => {
     // io.emit() -> for all clients when a connection happens
@@ -41,7 +45,7 @@ io.on('connection', (socket) => {
 
     socket.on('message', (msg) => {
         console.log(msg);
-    })
+    });
 
     // runs when a client disconnects
     socket.on('disconnect', () => {
