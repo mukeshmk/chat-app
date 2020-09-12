@@ -4,7 +4,8 @@ import socketio from 'socket.io';
 import mongoose from 'mongoose';
 
 import config from './config';
-import apiRouter from './api';
+import apiRouter from './routes';
+import authRouter from './routes/authRoutes';
 
 const app = express();
 const server = http.createServer(app);
@@ -21,6 +22,7 @@ app.get('/chat', (req, res) => {
 });
 
 app.use('/api', apiRouter);
+app.use(authRouter);
 
 app.use(express.static('public'));
 app.use(express.json());
