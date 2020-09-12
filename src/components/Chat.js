@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import socket from '../socket';
 
-import MessagesList from './Messages';
+import MessagesList from './MessagesList';
 
 const Chat = () => {
     const [message, setMessage] = useState('');
