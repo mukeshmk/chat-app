@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -50,11 +50,11 @@ const useStyles = makeStyles((theme) => ({
 export default function LogIn() {
     const history = useHistory();
     const classes = useStyles();
-    const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (e) => {
-        if(userName == 'asdf' && password == 'qwer') {
+        if(email == 'asdf' && password == 'qwer') {
             history.push('/chat');
         }
         e.preventDefault();
@@ -81,7 +81,7 @@ export default function LogIn() {
                         name="email"
                         autoComplete="email"
                         autoFocus
-                        onChange={(e) => setUserName(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextField
                         variant="outlined"
@@ -115,7 +115,7 @@ export default function LogIn() {
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/signup" variant="body2">
                                 {'Don\'t have an account? Sign Up'}
                             </Link>
                         </Grid>
