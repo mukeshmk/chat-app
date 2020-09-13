@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
 import config from './config';
+import requireAuth from './middleware/authMiddleware';
 import apiRouter from './routes';
 import authRouter from './routes/authRoutes';
 
@@ -20,7 +21,7 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get('/chat', (req, res) => {
+app.get('/chat', requireAuth,  (req, res) => {
     res.render('index');
 });
 

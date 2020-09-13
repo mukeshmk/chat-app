@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 
+import config from '../config';
 import User from '../models/User';
 
 const handleErrors = (err) => {
@@ -35,7 +36,7 @@ const handleErrors = (err) => {
 
 const maxAge = 1 * 24 * 60 * 60; // maxAge of 1 day
 const createToken = (id) => {
-    return jwt.sign({ id }, 'secret!', {
+    return jwt.sign({ id }, config.secret, {
         expiresIn: maxAge
     });
 };
