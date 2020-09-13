@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -48,15 +47,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LogIn() {
-    const history = useHistory();
     const classes = useStyles();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const handleSubmit = (e) => {
-        if(email == 'asdf' && password == 'qwer') {
-            history.push('/chat');
-        }
+        fetch('/login', {
+            method: 'POST',
+            body: JSON.stringify({ email, password }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                if(data.errors) {
+                    setEmailError(data.errors.email);
+                    setPasswordError(data.errors.password);
+                }
+                if(data.user) {
+                    location.assign('/chat');
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
         e.preventDefault();
     };
 
@@ -76,6 +93,8 @@ export default function LogIn() {
                         margin="normal"
                         required
                         fullWidth
+                        error={emailError!==''}
+                        helperText={emailError}
                         id="email"
                         label="Email Address"
                         name="email"
@@ -88,6 +107,8 @@ export default function LogIn() {
                         margin="normal"
                         required
                         fullWidth
+                        error={passwordError!==''}
+                        helperText={passwordError}
                         name="password"
                         label="Password"
                         type="password"

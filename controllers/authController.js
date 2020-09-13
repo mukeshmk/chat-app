@@ -5,6 +5,18 @@ import User from '../models/User';
 const handleErrors = (err) => {
     let errors = { email: '', password: '' };
 
+    // incorrect email
+    if (err.message.includes('incorrect email')) {
+        errors.email = err.message;
+        return errors;
+    }
+
+    // incoorect password
+    if (err.message.includes('incorrect password')) {
+        errors.password = err.message;
+        return errors;
+    }
+
     // dulicate error
     if (err.code === 11000) {
         errors.email = 'that email is already registered';
@@ -54,5 +66,14 @@ module.exports.signup_post = (req, res) => {
 module.exports.login_post = (req, res) => {
     const { email, password } = req.body;
 
-    res.send('user login');
+    User.login(email, password)
+        .then((user)=> {
+            const token = createToken(user._id);
+            res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+            res.status(200).json({user: user._id});
+        })
+        .catch((err) => {
+            const errors = handleErrors(err);
+            res.status(400).send({ errors });
+        });
 };

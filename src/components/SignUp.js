@@ -65,6 +65,9 @@ export default function SignUp() {
                     setEmailError(data.errors.email);
                     setPasswordError(data.errors.password);
                 }
+                if(data.user) {
+                    location.assign('/chat');
+                }
             })
             .catch((err) => {
                 console.error(err);
