@@ -2,6 +2,7 @@ import http from 'http';
 import express from 'express';
 import socketio from 'socket.io';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 
 import config from './config';
 import apiRouter from './routes';
@@ -10,6 +11,8 @@ import authRouter from './routes/authRoutes';
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+
+app.use(cookieParser());
 
 app.set('view engine', 'ejs');
 

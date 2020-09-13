@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -49,11 +48,27 @@ export default function SignUp() {
     const classes = useStyles();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const handleSubmit = (e) => {
-        if(email == 'asdf' && password == 'qwer') {
-            console.log(email, password);
-        }
+        fetch('/signup', {
+            method: 'POST',
+            body: JSON.stringify({ email, password }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                if(data.errors) {
+                    setEmailError(data.errors.email);
+                    setPasswordError(data.errors.password);
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
         e.preventDefault();
     };
 
@@ -97,6 +112,8 @@ export default function SignUp() {
                                 variant="outlined"
                                 required
                                 fullWidth
+                                error={emailError!==''}
+                                helperText={emailError}
                                 id="email"
                                 label="Email Address"
                                 name="email"
@@ -109,6 +126,8 @@ export default function SignUp() {
                                 variant="outlined"
                                 required
                                 fullWidth
+                                error={passwordError!==''}
+                                helperText={passwordError}
                                 name="password"
                                 label="Password"
                                 type="password"
