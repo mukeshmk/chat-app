@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -76,9 +76,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar() {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-    const [email, setEmail] = React.useState('test@test.com');
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+    const [email, setEmail] = useState('');
+
+    fetch('/user', {
+        method: 'GET',
+    })
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            if(data.user) {
+                setEmail(data.user);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -100,6 +115,10 @@ export default function NavBar() {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const hangleLogOut = () => {
+        location.assign('/logout');
+    };
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -112,7 +131,7 @@ export default function NavBar() {
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={hangleLogOut}>Log Out</MenuItem>
         </Menu>
     );
 
