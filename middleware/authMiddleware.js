@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import config from '../config';
+import User from '../models/User';
 
-export default (req, res, next) => {
+const requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
 
     // check if jwt exits and is verified
@@ -11,7 +12,7 @@ export default (req, res, next) => {
                 console.error(err.message);
                 res.redirect('/login');
             } else {
-                console.info(decodedToken);
+                //console.info(decodedToken);
                 next();
             }
         });
@@ -19,3 +20,26 @@ export default (req, res, next) => {
         res.redirect('/login');
     }
 };
+
+const checkUser = (req, res, next) => {
+    const token = req.cookies.jwt;
+
+    if(token) {
+        jwt.verify(token, config.secret, async (err, decodedToken) => {
+            if(err) {
+                console.error(err.message);
+                res.locals.user = null;
+                next();
+            } else {
+                let user = await User.findById(decodedToken.id);
+                res.locals.user = user;
+                next();
+            }
+        });
+    } else {
+        res.locals.user = null;
+        next();
+    }
+};
+
+module.exports = { requireAuth, checkUser };

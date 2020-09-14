@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
 import config from './config';
-import requireAuth from './middleware/authMiddleware';
+import { requireAuth, checkUser } from './middleware/authMiddleware';
 import apiRouter from './routes';
 import authRouter from './routes/authRoutes';
 
@@ -16,6 +16,8 @@ const io = socketio(server);
 app.use(cookieParser());
 
 app.set('view engine', 'ejs');
+
+app.get('*', checkUser);
 
 app.get('/', (req, res) => {
     res.render('index');

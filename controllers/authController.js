@@ -78,3 +78,8 @@ module.exports.login_post = (req, res) => {
             res.status(400).send({ errors });
         });
 };
+
+module.exports.logout_get = (req, res) => {
+    res.cookie('jwt', '', { maxAge: 1 });
+    res.redirect('/');
+};
