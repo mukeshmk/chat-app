@@ -7,6 +7,7 @@ const requireAuth = (req, res, next) => {
 
     // check if jwt exits and is verified
     if(token) {
+        // eslint-disable-next-line no-unused-vars
         jwt.verify(token, config.secret, (err, decodedToken) => {
             if(err) {
                 console.error(err.message);
