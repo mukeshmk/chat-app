@@ -28,7 +28,7 @@ app.get('/chat', requireAuth,  (req, res) => {
 });
 
 app.get('/user', requireAuth, (req, res) => {
-    res.status(200).json({user: res.locals.user.email});
+    res.status(200).json({user: res.locals.user});
 });
 
 app.use(express.static('public'));

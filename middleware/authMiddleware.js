@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken';
 import config from '../config';
 import User from '../models/User';
 
+const maxAge = 1 * 60 * 60;
+
 const requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
 
@@ -32,9 +34,19 @@ const checkUser = (req, res, next) => {
                 res.locals.user = null;
                 next();
             } else {
-                let user = await User.findById(decodedToken.id);
-                res.locals.user = user;
-                next();
+                const cookieUser = req.cookies.user;
+                if(cookieUser) {
+                    res.locals.user = cookieUser;
+                    next();
+                } else {
+                    let user = await User.findById(decodedToken.id);
+
+                    let userdata = user.email;
+
+                    res.locals.user = userdata;
+                    res.cookie('user', userdata, { httpOnly: true, maxAge: maxAge * 1000 });
+                    next();
+                }
             }
         });
     } else {
