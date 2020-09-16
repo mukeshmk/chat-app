@@ -5,8 +5,8 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
 import config from './config';
-import { requireAuth, checkUser } from './middleware/authMiddleware';
-import apiRouter from './routes';
+import { checkUser } from './middleware/authMiddleware';
+import defaultRouter from './routes';
 import authRouter from './routes/authRoutes';
 
 const app = express();
@@ -19,22 +19,11 @@ app.set('view engine', 'ejs');
 
 app.get('*', checkUser);
 
-app.get('/', (req, res) => {
-    res.render('index');
-});
-
-app.get('/chat', requireAuth,  (req, res) => {
-    res.render('index');
-});
-
-app.get('/user', requireAuth, (req, res) => {
-    res.status(200).json({user: res.locals.user});
-});
+app.use(defaultRouter);
 
 app.use(express.static('public'));
 app.use(express.json());
 
-app.use('/api', apiRouter);
 app.use(authRouter);
 
 mongoose.connect(config.dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
