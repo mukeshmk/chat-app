@@ -51,25 +51,27 @@ export default function SignUp() {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
-    const handleSubmit = async (e) => {
-        let res = await fetch('/signup', {
+    const handleSubmit = (e) => {
+        fetch('/signup', {
             method: 'POST',
             body: JSON.stringify({ email, password }),
             headers: { 'Content-Type': 'application/json' }
-        }).catch((err) => {
-            console.error(err);
-        });
-        let data = await res.json()
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                if(data.errors) {
+                    setEmailError(data.errors.email);
+                    setPasswordError(data.errors.password);
+                }
+                if(data.user) {
+                    location.assign('/chat');
+                }
+            })
             .catch((err) => {
                 console.error(err);
             });
-        if(data.errors) {
-            setEmailError(data.errors.email);
-            setPasswordError(data.errors.password);
-        }
-        if(data.user) {
-            location.assign('/chat');
-        }
         e.preventDefault();
     };
 

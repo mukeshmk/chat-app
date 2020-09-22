@@ -74,26 +74,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default async function NavBar() {
+export default function NavBar() {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
     const [email, setEmail] = useState('');
 
-    let res = await fetch('/user', {
+    fetch('/user', {
         method: 'GET',
-    }).catch((err) => {
-        console.error(err);
-    });
-    
-    let data = await res.json()
+    })
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            if(data.user) {
+                setEmail(data.user);
+            }
+        })
         .catch((err) => {
             console.error(err);
         });
-    
-    if(data.user) {
-        setEmail(data.user);
-    }
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

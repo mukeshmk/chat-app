@@ -49,32 +49,34 @@ module.exports.login_get = (req, res) => {
     res.render('index');
 };
 
-module.exports.signup_post = async (req, res) => {
+module.exports.signup_post = (req, res) => {
     const { email, password } = req.body;
 
-    let user = await User.create({ email, password })
+    User.create({ email, password })
+        .then((user) => {
+            const token = createToken(user._id);
+            res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+            res.status(201).json({user: user._id});
+        })
         .catch((err) => {
             const errors = handleErrors(err);
             res.status(400).json({ errors });
         });
-
-    const token = createToken(user._id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({user: user._id});
 };
 
-module.exports.login_post = async (req, res) => {
+module.exports.login_post = (req, res) => {
     const { email, password } = req.body;
 
-    let user = await User.login(email, password)
+    User.login(email, password)
+        .then((user)=> {
+            const token = createToken(user._id);
+            res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+            res.status(200).json({user: user._id});
+        })
         .catch((err) => {
             const errors = handleErrors(err);
             res.status(400).send({ errors });
         });
-    
-    const token = createToken(user._id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).json({user: user._id});
 };
 
 module.exports.logout_get = (req, res) => {
