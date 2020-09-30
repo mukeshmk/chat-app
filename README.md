@@ -21,7 +21,8 @@ without being worried about where their messages will be stored and w
 
 ## Build:
 
-This is a single stand along with react-node.js application where both the front end and back end code are in the same repository instead of having them separately.
+This is a stand alone application build with react and node.js. 
+Here, both the front end and back end code are in the same repository instead of being seperate.
 
     To run:
     - clone the repo using this link: https://github.com/mukeshmk/chat-app.git.    
@@ -36,4 +37,5 @@ In case there are new changes to the UI:
     - open terminal and start server using 'npm start'.
     - open another terminal and run 'npm run dev'.
 
-The command `npm run dev` starts the webpack-cli and updates the `bundle.js` file which is then redeployed on the server and then the UI is updated.
+The command `npm run dev` starts the webpack-cli and updates the `bundle.js` file.
+The changes are then redeployed on the server and then the UI is updated.
