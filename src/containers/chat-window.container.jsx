@@ -2,11 +2,11 @@ import React from 'react';
 import socket from '../socket';
 
 import ChatItem from '../components/chat-item/chat-item.component.jsx';
-import MessageInput from '../components/message-input/message-input.component.jsx';
 
 const styles = {
     width: '100%',
     height: '70vh',
+    overflowY: 'auto',
 };
 
 const messageInputStyles = {
@@ -60,19 +60,21 @@ class ChatWindow extends React.Component {
     }
 
     submitHandler() {
-        const message = {
-            message: this.state.value,
-            mine: true,
-        };
-        const { messages } = this.state;
-        messages.push(message);
-
-        socket.emit('message', message);
-        this.setState({
-            ...this.state,
-            value: '',
-            messages: messages,
-        });
+        if (this.state.value.trim() !== '') {
+            const message = {
+                message: this.state.value,
+                mine: true,
+            };
+            const { messages } = this.state;
+            messages.push(message);
+    
+            socket.emit('message', message);
+            this.setState({
+                ...this.state,
+                value: '',
+                messages: messages,
+            });
+        }
     }
 
     render() {
